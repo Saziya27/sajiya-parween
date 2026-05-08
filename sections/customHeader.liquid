@@ -1,0 +1,245 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .custom-header-wrapper {
+    width: 100%;
+  }
+
+  .custom-header__container.page-width {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  @media screen and (min-width: 990px) {
+    .custom-header__container.page-width {
+      padding-left: var(--custom-page-padding-desktop);
+      padding-right: var(--custom-page-padding-desktop);
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .custom-header__container.page-width {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+    }
+  }
+
+  .custom-header__logo-link {
+    display: block;
+    line-height: 0;
+  }
+
+  .custom-header__logo-img {
+    height: auto;
+    max-width: 100%;
+  }
+
+  .custom-header__text {
+    font-family: var(--custom-font-family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 13.42px;
+    letter-spacing: 0px;
+    text-align: center;
+    color: rgb(var(--color-foreground));
+    margin: 0;
+  }
+
+  .custom-header__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--custom-font-family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.48px;
+    letter-spacing: 0.1px;
+    text-transform: uppercase;
+    padding: 10px 21px 10px 41px;
+    cursor: pointer;
+    gap: 18px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border: none !important;
+    box-shadow: none !important;
+    position: relative;
+  }
+
+  .custom-header__button::after,
+  .custom-header__button::before {
+    display: none !important;
+  }
+
+  .custom-header__button:hover {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+  }
+
+  .custom-header__button svg {
+    width: 24px;
+    height: auto;
+    display: block;
+    transition: all 0.3s ease;
+  }
+
+  .custom-header__button svg path {
+    fill: currentColor;
+  }
+
+{%- endstyle -%}
+
+<div class="custom-header-wrapper color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="custom-header__container page-width  container">
+    <!-- Logo -->
+    <div class="custom-header__logo">
+      <a href="{{ routes.root_url }}" class="custom-header__logo-link">
+        {%- if section.settings.logo_image != blank -%}
+          {%- assign logo_alt = section.settings.logo_image.alt | default: shop.name | escape -%}
+          {%- assign logo_height = section.settings.logo_width | divided_by: section.settings.logo_image.aspect_ratio -%}
+          {{
+            section.settings.logo_image
+            | image_url: width: 500
+            | image_tag:
+              class: 'custom-header__logo-img',
+              widths: '50, 100, 150, 200, 250, 300, 400, 500',
+              height: logo_height,
+              width: section.settings.logo_width,
+              alt: logo_alt
+          }}
+        {%- else -%}
+          <span class="h2">{{ shop.name }}</span>
+        {%- endif -%}
+      </a>
+    </div>
+
+    <!-- Center Text -->
+    {%- if section.settings.center_text != blank -%}
+      <div class="custom-header__text">
+        {{ section.settings.center_text }}
+      </div>
+    {%- endif -%}
+
+    <!-- Button -->
+    {%- if section.settings.button_text != blank -%}
+      <div class="headerBTN btn">
+        <a href="{{ section.settings.button_link }}" class="custom-header__button button button--primary">
+          {{ section.settings.button_text }}
+          <svg viewBox="0 0 14 10" fill="none" aria-hidden="true" focusable="false" class="icon icon-arrow" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor"></path>
+          </svg>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo Image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo Width",
+      "default": 150
+    },
+    {
+      "type": "text",
+      "id": "center_text",
+      "label": "Center Text",
+      "default": "Find the ideal gift for your loved ones."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "CHOOSE GIFT"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Top padding (Desktop)",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom padding (Desktop)",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Top padding (Mobile)",
+      "default": 23
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Bottom padding (Mobile)",
+      "default": 23
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Header"
+    }
+  ]
+}
+{% endschema %}
