@@ -1,0 +1,337 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .gift-guide-{{ section.id }} {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .gift-guide__container {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    margin-top: -17px;
+  }
+
+  @media screen and (min-width: 1301px) {
+    .gift-guide__container {
+      grid-template-columns: 1fr 1.62fr;
+      align-items: center;
+    }
+  }
+
+  .gift-guide__content {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 20px;
+    gap: clamp(20px, 4vw, 50px);
+    z-index: 2;
+  }
+
+  @media screen and (min-width: 1301px) {
+    .gift-guide__content {
+      padding: 0px 0px 0px 67px;
+      text-align: left;
+      align-items: flex-start;
+    }
+  }
+
+  .gift-guide__title {
+    margin: 0;
+    font-family: var(--custom-font-family);
+    font-weight: 500;
+    color: rgb(var(--color-foreground));
+    line-height: 1;
+  letter-spacing: 1.1px;
+    /* Responsive text size: 30px to 70px */
+    font-size: clamp(30px, 4vw + 1rem, 70px);
+  }
+
+  .gift-guide__description {
+    margin: 0;
+    font-family: var(--custom-font-family);
+    font-weight: 400;
+    color: rgb(var(--color-foreground));
+      line-height: 28px;
+    font-size: clamp(15px, 1.5vw + 0.5rem, 18px);
+        letter-spacing: 0.81px;
+  }
+
+  .gift-guide__image-wrapper {
+    position: relative;
+    width: 100%;
+    line-height: 0;
+  }
+
+  @media screen and (min-width: 1301px) {
+    .gift-guide__image-wrapper {
+      max-width: 890px;
+      justify-self: end;
+    }
+  }
+
+  .gift-guide__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  .gift-guide-{{ section.id }} .mobile-only {
+    display: block;
+  }
+  .gift-guide-{{ section.id }} .desktop-only {
+    display: none;
+  }
+  
+  @media screen and (min-width: 1301px) {
+    .gift-guide-{{ section.id }} .mobile-only {
+      display: none !important;
+      padding-bottom: 3px;
+    }
+    .gift-guide-{{ section.id }} .desktop-only {
+      display: block !important;
+    }
+  }
+
+  /* Specific mobile button overlap style */
+  @media screen and (max-width: 1300px) {
+    .gift-guide__button-wrapper.mobile-only {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      width: auto;
+    }
+  }
+
+  .gift-guide__button-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  @media screen and (min-width: 1301px) {
+    .gift-guide__button-wrapper {
+      justify-content: flex-start;
+      width: 100%;
+    }
+  }
+
+  .gift-guide__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(var(--color-button));
+    color: rgb(var(--color-button-text));
+    padding: 12px 30px;
+    text-transform: uppercase;
+    font-family: var(--custom-font-family);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    gap: 15px;
+    transition: all 0.3s ease;
+    min-width: 200px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .gift-guide__button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+
+  .gift-guide__button svg {
+    width: 20px;
+    height: auto;
+  }
+{%- endstyle -%}
+
+<div class="gift-guide-{{ section.id }} color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="">
+    <div class="gift-guide__container">
+      <div class="gift-guide__content">
+        {%- if section.settings.title != blank -%}
+          <h2 class="gift-guide__title">{{ section.settings.title }}</h2>
+        {%- endif -%}
+        {%- if section.settings.description != blank -%}
+          <div class="gift-guide__description">
+            {{ section.settings.description }}
+          </div>
+        {%- endif -%}
+        
+        <!-- Button for Desktop -->
+        <div class="gift-guide__button-wrapper desktop-only ">
+          {%- if section.settings.button_text != blank -%}
+            <a href="{{ section.settings.button_link }}" class="gift-guide__button">
+              {{ section.settings.button_text }}
+              <svg viewBox="0 0 14 10" fill="none" aria-hidden="true" focusable="false" class="icon icon-arrow" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor"></path>
+              </svg>
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="gift-guide__image-wrapper">
+        {%- if section.settings.desktop_image != blank -%}
+          {{
+            section.settings.desktop_image
+            | image_url: width: 1500
+            | image_tag:
+              loading: 'lazy',
+              class: 'gift-guide__image desktop-only',
+              widths: '750, 1100, 1500, 1780, 2000'
+          }}
+        {%- else -%}
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg desktop-only' }}
+        {%- endif -%}
+
+        {%- if section.settings.mobile_image != blank -%}
+          {{
+            section.settings.mobile_image
+            | image_url: width: 800
+            | image_tag:
+              loading: 'lazy',
+              class: 'gift-guide__image mobile-only',
+              widths: '375, 550, 750'
+          }}
+        {%- else -%}
+          {%- if section.settings.desktop_image != blank -%}
+            {{
+              section.settings.desktop_image
+              | image_url: width: 800
+              | image_tag:
+                loading: 'lazy',
+                class: 'gift-guide__image mobile-only',
+                widths: '375, 550, 750'
+            }}
+          {%- else -%}
+             {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg mobile-only' }}
+          {%- endif -%}
+        {%- endif -%}
+
+        <!-- Button for Mobile (Overlay) -->
+        <div class="gift-guide__button-wrapper mobile-only">
+          {%- if section.settings.button_text != blank -%}
+            <a href="{{ section.settings.button_link }}" class="gift-guide__button">
+              {{ section.settings.button_text }}
+              <svg viewBox="0 0 14 10" fill="none" aria-hidden="true" focusable="false" class="icon icon-arrow" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor"></path>
+              </svg>
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Gift Guide",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "The Gift Guide"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect delight for your loved ones this holiday season.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (Desktop)",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (Desktop)",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (Mobile)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (Mobile)",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gift Guide"
+    }
+  ]
+}
+{% endschema %}

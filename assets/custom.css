@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Lustria&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--custom-font-family)
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  padding: 0;
+  margin: 0;
+
+}
+
+a {
+  text-decoration: none;
+}
+
+:root {
+  --custom-page-width: 1440px;
+  --custom-page-padding-desktop: 50px;
+  --custom-page-padding-mobile: 16px;
+
+  /* Font Variables */
+  --custom-font-family: 'Jost';
+  --custom-font-family2: 'Lustria';
+  --custom-font-weight-regular: 400;
+  --custom-font-size-base: 16px;
+  --custom-line-height-base: 13.42px;
+}
+
+.container {
+  max-width: var(--custom-page-width);
+  padding-left: var(--custom-page-padding-mobile);
+  padding-right: var(--custom-page-padding-mobile);
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 990px) {
+  .container {
+    padding-left: var(--custom-page-padding-desktop);
+    padding-right: var(--custom-page-padding-desktop);
+  }
+}
+
+.page-width.custom-header__container {
+  max-width: var(--custom-page-width);
+  padding-left: var(--custom-page-padding-mobile);
+  padding-right: var(--custom-page-padding-mobile);
+}
+
+@media screen and (min-width: 990px) {
+  .page-width.custom-header__container {
+    padding-left: var(--custom-page-padding-desktop);
+    padding-right: var(--custom-page-padding-desktop);
+  }
+}

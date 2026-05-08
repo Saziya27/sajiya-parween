@@ -1,0 +1,98 @@
+{%- style -%}
+  .announcement-bar-{{ section.id }} {
+    width: 100%;
+min-height: 32px;
+    display: flex;
+    align-items: center;
+    background-color: rgb(var(--color-background));
+    color: rgb(var(--color-foreground));
+    border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+  }
+
+  .announcement-bar__container {
+    display: flex;
+    justify-content: flex-end;  
+    align-items: center;
+    width: 100%;
+  }
+
+  .announcement-bar__text {
+font-weight: 400;
+font-size: 16px;
+line-height: 13.42px;
+letter-spacing: 0px;
+text-align: center;
+    font-family: var(--custom-font-family);
+    text-transform: uppercase;
+  }
+
+  @media screen and (max-width: 749px) {
+    .announcement-bar__container {
+      justify-content: center; /* Center on mobile for better UX */
+    }
+    .announcement-bar__text {
+      font-size: 10px;
+    }
+  }
+
+  .announcement-bar__link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    width: 100%;
+  }
+
+  .announcement-bar__link:hover .announcement-bar__text {
+    opacity: 0.8;
+  }
+{%- endstyle -%}
+
+<div class="announcement-bar-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="container">
+    <div class="announcement-bar__container">
+      {%- if section.settings.link != blank -%}
+        <a href="{{ section.settings.link }}" class="announcement-bar__link">
+      {%- endif -%}
+          
+          {%- if section.settings.text != blank -%}
+            <p class="announcement-bar__text">
+              {{ section.settings.text | escape }}
+            </p>
+          {%- endif -%}
+
+      {%- if section.settings.link != blank -%}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar"
+    }
+  ]
+}
+{% endschema %}
