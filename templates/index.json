@@ -59,13 +59,13 @@
         "title": "The Gift Guide",
         "description": "<p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>",
         "button_text": "SHOP NOW",
-        "button_link": "",
+        "button_link": "shopify://collections/all",
         "desktop_image": "shopify://shop_images/Frame_2.png",
         "mobile_image": "shopify://shop_images/Frame_4.png",
         "color_scheme": "scheme-2",
         "padding_top": 0,
         "padding_bottom": 0,
-        "padding_top_mobile": 0,
+        "padding_top_mobile": 36,
         "padding_bottom_mobile": 0
       }
     },
@@ -74,7 +74,7 @@
       "name": "Announcement Bar",
       "settings": {
         "text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
-        "link": "",
+        "link": "shopify://collections",
         "color_scheme": "scheme-1"
       }
     },
@@ -87,8 +87,8 @@
             "product": "black-leather-bag",
             "icon_top": 56,
             "icon_left": 62,
-            "icon_top_mobile": 80,
-            "icon_left_mobile": 73
+            "icon_top_mobile": 30,
+            "icon_left_mobile": 76
           }
         },
         "product_item_4DBKTH": {
@@ -97,7 +97,7 @@
             "product": "blue-silk-tuxedo",
             "icon_top": 53,
             "icon_left": 85,
-            "icon_top_mobile": 50,
+            "icon_top_mobile": 11,
             "icon_left_mobile": 50
           }
         },
@@ -107,8 +107,8 @@
             "product": "chequered-red-shirt",
             "icon_top": 21,
             "icon_left": 63,
-            "icon_top_mobile": 50,
-            "icon_left_mobile": 50
+            "icon_top_mobile": 15,
+            "icon_left_mobile": 17
           }
         },
         "product_item_yJwYJP": {
@@ -117,8 +117,8 @@
             "product": "classic-leather-jacket",
             "icon_top": 19,
             "icon_left": 73,
-            "icon_top_mobile": 50,
-            "icon_left_mobile": 50
+            "icon_top_mobile": 16,
+            "icon_left_mobile": 57
           }
         },
         "product_item_WeeFQw": {
@@ -155,9 +155,9 @@
         "title": "Tisso vison in the wild",
         "bonus_product_handle": "dark-winter-jacket",
         "color_scheme": "scheme-2",
-        "padding_top": 90,
+        "padding_top": 94,
         "padding_bottom": 50,
-        "padding_top_mobile": 40,
+        "padding_top_mobile": 30,
         "padding_bottom_mobile": 22
       }
     }
