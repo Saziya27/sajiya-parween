@@ -13,6 +13,10 @@
 
   .custom-header-wrapper {
     width: 100%;
+    position: relative;
+    border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+    background-color: rgb(var(--color-background));
+    z-index: 100;
   }
 
   .custom-header__container.page-width {
@@ -23,13 +27,8 @@
     gap: 15px;
     text-align: center;
     margin: 0 auto;
-  }
+    position: relative;
 
-  @media screen and (min-width: 990px) {
-    .custom-header__container.page-width {
-      padding-left: var(--custom-page-padding-desktop);
-      padding-right: var(--custom-page-padding-desktop);
-    }
   }
 
   @media screen and (min-width: 750px) {
@@ -37,6 +36,53 @@
       flex-direction: row;
       justify-content: space-between;
       text-align: left;
+      gap: 0;
+    }
+  }
+
+  /* Hamburger Toggle */
+  .custom-header__toggle {
+    position: absolute;
+left: 11px;
+    top: 6%;
+    transform: translateY(-10%);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: rgb(var(--color-foreground));
+    z-index: 10;
+  }
+
+  @media screen and (min-width: 750px) {
+    .custom-header__toggle {
+      display: none;
+    }
+  }
+
+  .custom-header__toggle .icon-close { display: none; }
+  .is-active .custom-header__toggle .icon-hamburger { display: none; }
+  .is-active .custom-header__toggle .icon-close { display: block; }
+
+  /* Mobile Top Bar Handling */
+  .custom-header__logo-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .custom-header__logo-wrapper {
+      width: auto;
+      justify-content: flex-start;
+      min-height: unset;
     }
   }
 
@@ -50,7 +96,9 @@
     max-width: 100%;
   }
 
+  /* Desktop Text and Button */
   .custom-header__text {
+    display: none; /* Hide on mobile by default */
     font-family: var(--custom-font-family);
     font-weight: 400;
     font-size: 16px;
@@ -59,6 +107,31 @@
     text-align: center;
     color: rgb(var(--color-foreground));
     margin: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .custom-header__text {
+      display: block;
+    }
+  }
+
+  /* Mobile Content Logic */
+  .is-active .custom-header__text {
+    display: block;
+  }
+
+  .headerBTN.btn {
+    display: none; /* Hide on mobile by default */
+  }
+
+  @media screen and (min-width: 750px) {
+    .headerBTN.btn {
+      display: block;
+    }
+  }
+
+  .is-active .headerBTN.btn {
+    display: block;
   }
 
   .custom-header__button {
@@ -71,7 +144,7 @@
     line-height: 20.48px;
     letter-spacing: 0.1px;
     text-transform: uppercase;
-    padding: 10px 21px 10px 41px;
+    padding: 12px 21px 12px 41px;
     cursor: pointer;
     gap: 18px;
     transition: all 0.3s ease;
@@ -79,6 +152,15 @@
     border: none !important;
     box-shadow: none !important;
     position: relative;
+    background-color: rgb(var(--color-button));
+    color: rgb(var(--color-button-text));
+  }
+
+  @media screen and (max-width: 749px) {
+    .is-active .custom-header__button {
+       background-color: #FAFF5A !important;
+       color: #000 !important;
+    }
   }
 
   .custom-header__button::after,
@@ -87,8 +169,7 @@
   }
 
   .custom-header__button:hover {
-    background-color: #000000 !important;
-    color: #ffffff !important;
+    opacity: 0.9;
   }
 
   .custom-header__button svg {
@@ -104,10 +185,23 @@
 
 {%- endstyle -%}
 
-<div class="custom-header-wrapper color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
-  <div class="custom-header__container page-width  container">
+<div class="custom-header-wrapper color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding js-header-wrapper">
+  <div class="custom-header__container page-width container">
+    <!-- Hamburger Toggle -->
+    <button type="button" class="custom-header__toggle js-header-toggle" aria-label="Toggle menu">
+      <svg class="icon icon-hamburger" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M3 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <svg class="icon icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
     <!-- Logo -->
-    <div class="custom-header__logo">
+    <div class="custom-header__logo-wrapper">
       <a href="{{ routes.root_url }}" class="custom-header__logo-link">
         {%- if section.settings.logo_image != blank -%}
           {%- assign logo_alt = section.settings.logo_image.alt | default: shop.name | escape -%}
@@ -138,7 +232,7 @@
     <!-- Button -->
     {%- if section.settings.button_text != blank -%}
       <div class="headerBTN btn">
-        <a href="{{ section.settings.button_link }}" class="custom-header__button button button--primary">
+        <a href="{{ section.settings.button_link }}" class="custom-header__button">
           {{ section.settings.button_text }}
           <svg viewBox="0 0 14 10" fill="none" aria-hidden="true" focusable="false" class="icon icon-arrow" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor"></path>
@@ -148,6 +242,19 @@
     {%- endif -%}
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const headerWrapper = document.querySelector('.js-header-wrapper');
+    const toggleBtn = document.querySelector('.js-header-toggle');
+    if (toggleBtn && headerWrapper) {
+      toggleBtn.addEventListener('click', function() {
+        headerWrapper.classList.toggle('is-active');
+      });
+    }
+  });
+</script>
+
 
 {% schema %}
 {

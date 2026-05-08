@@ -1,23 +1,172 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "main": {
-      "type": "main-page",
+    "image_banner": {
+      "type": "image-banner",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Browse our latest products",
+            "heading_size": "h0"
+          }
+        },
+        "button": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Shop all",
+            "button_link_1": "shopify://collections/all",
+            "button_style_secondary_1": true,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "button"
+      ],
+      "disabled": true,
       "settings": {
-        "padding_top": 28,
-        "padding_bottom": 28
+        "image_overlay_opacity": 40,
+        "image_height": "large",
+        "image_behavior": "none",
+        "desktop_content_position": "bottom-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": false,
+        "color_scheme": "scheme-3",
+        "stack_images_on_mobile": false,
+        "mobile_content_alignment": "center",
+        "show_text_below": false
+      }
+    },
+    "custom_banner_EHUpzD": {
+      "type": "customBanner",
+      "name": "Custom Banner",
+      "settings": {
+        "banner_image": "shopify://shop_images/Frame_3.png",
+        "color_scheme": "scheme-2",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 0
+      }
+    },
+    "gift_guid_Xjc4tr": {
+      "type": "giftGuid",
+      "name": "Gift Guide",
+      "settings": {
+        "title": "The Gift Guide",
+        "description": "<p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>",
+        "button_text": "SHOP NOW",
+        "button_link": "shopify://collections/all",
+        "desktop_image": "shopify://shop_images/Frame_2.png",
+        "mobile_image": "shopify://shop_images/Frame_4.png",
+        "color_scheme": "scheme-2",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mobile": 36,
+        "padding_bottom_mobile": 0
+      }
+    },
+    "announcement_bar_zzjgxw": {
+      "type": "announcementBar",
+      "name": "Announcement Bar",
+      "settings": {
+        "text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
+        "link": "shopify://collections",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "custom_productgrid_XEXYqx": {
+      "type": "customProductgrid",
+      "blocks": {
+        "product_item_43JB7a": {
+          "type": "product_item",
+          "settings": {
+            "product": "black-leather-bag",
+            "icon_top": 56,
+            "icon_left": 62,
+            "icon_top_mobile": 30,
+            "icon_left_mobile": 76
+          }
+        },
+        "product_item_4DBKTH": {
+          "type": "product_item",
+          "settings": {
+            "product": "blue-silk-tuxedo",
+            "icon_top": 53,
+            "icon_left": 85,
+            "icon_top_mobile": 11,
+            "icon_left_mobile": 50
+          }
+        },
+        "product_item_YQcPVe": {
+          "type": "product_item",
+          "settings": {
+            "product": "chequered-red-shirt",
+            "icon_top": 21,
+            "icon_left": 63,
+            "icon_top_mobile": 15,
+            "icon_left_mobile": 17
+          }
+        },
+        "product_item_yJwYJP": {
+          "type": "product_item",
+          "settings": {
+            "product": "classic-leather-jacket",
+            "icon_top": 19,
+            "icon_left": 73,
+            "icon_top_mobile": 16,
+            "icon_left_mobile": 57
+          }
+        },
+        "product_item_WeeFQw": {
+          "type": "product_item",
+          "settings": {
+            "product": "classic-varsity-top",
+            "icon_top": 26,
+            "icon_left": 52,
+            "icon_top_mobile": 50,
+            "icon_left_mobile": 50
+          }
+        },
+        "product_item_GiGrNM": {
+          "type": "product_item",
+          "settings": {
+            "product": "dark-denim-top",
+            "icon_top": 40,
+            "icon_left": 77,
+            "icon_top_mobile": 50,
+            "icon_left_mobile": 50
+          }
+        }
+      },
+      "block_order": [
+        "product_item_43JB7a",
+        "product_item_4DBKTH",
+        "product_item_YQcPVe",
+        "product_item_yJwYJP",
+        "product_item_WeeFQw",
+        "product_item_GiGrNM"
+      ],
+      "name": "Custom Product Grid",
+      "settings": {
+        "title": "Tisso vison in the wild",
+        "bonus_product_handle": "dark-winter-jacket",
+        "color_scheme": "scheme-2",
+        "padding_top": 94,
+        "padding_bottom": 50,
+        "padding_top_mobile": 30,
+        "padding_bottom_mobile": 22
       }
     }
   },
   "order": [
-    "main"
+    "image_banner",
+    "custom_banner_EHUpzD",
+    "gift_guid_Xjc4tr",
+    "announcement_bar_zzjgxw",
+    "custom_productgrid_XEXYqx"
   ]
 }
