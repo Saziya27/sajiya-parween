@@ -18,11 +18,19 @@
 
   .custom-product-grid__title {
     font-family: var(--custom-font-family2);
-    font-size: 24px;
+    font-size: 36px;
     line-height: 120%;
     letter-spacing: 0;
     margin-bottom: 30px;
-    text-align: center;
+    text-align: left;
+  }
+
+  @media screen and (max-width: 749px) {
+    .custom-product-grid__title {
+      text-align: center;
+      font-size: 24px;
+      padding-top:20px;
+    }
   }
 
   .custom-product-grid__grid {
@@ -224,7 +232,6 @@
     font-size: 18px;
     cursor: pointer;
     border-right: 1px solid #000;
-    transition: all 0.2s ease;
     background-color: #fff;
     color: #000;
     border-left: 6px solid transparent;
@@ -237,43 +244,91 @@
     border-right: none;
   }
 
-  .custom-quickview-modal__swatch:hover {
+  .custom-quickview-modal__swatch:hover,
+  .custom-quickview-modal__swatch.selected {
     background-color: #000 !important;
     color: #fff !important;
   }
 
-  .custom-quickview-modal__swatch.selected {
-    background-color: #fff;
-    color: #000;
-  }
-
-  /* Size Selector */
+  /* Custom Dropdown (Size Selector) */
   .custom-quickview-modal__size-wrapper {
     margin-bottom: 30px;
   }
 
-  .custom-quickview-modal__select-container {
+  .custom-dropdown {
     position: relative;
-    border: 1px solid #000;
+    width: 100%;
+    user-select: none;
   }
 
-  .custom-quickview-modal__select {
-    width: 100%;
-    padding: 12px 15px;
-    border: none;
+  .custom-dropdown__selected {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    border: 1px solid #000;
+    cursor: pointer;
+    background: #fff;
+    min-height: 48px;
+  }
+
+  .js-dropdown-label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
     font-family: var(--custom-font-family);
     font-size: 16px;
-    appearance: none;
-    background: transparent;
-    cursor: pointer;
+    color: #000;
   }
 
-  .custom-quickview-modal__select-icon {
+  .custom-dropdown__icon {
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid #000;
+  }
+
+  .custom-dropdown__list {
     position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #000;
+    border-top: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    z-index: 100;
+    display: none;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  .custom-dropdown.is-open .custom-dropdown__list {
+    display: block;
+  }
+
+  .custom-dropdown__item {
+    padding: 12px;
+    text-align: center;
+    font-family: var(--custom-font-family);
+    font-size: 16px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    background-color: #fff;
+    color: #000;
+  }
+
+  .custom-dropdown__item:last-child {
+    border-bottom: none;
+  }
+
+  .custom-dropdown__item:hover,
+  .custom-dropdown__item.selected {
+    background-color: #000;
+    color: #fff;
   }
 
   /* Add to Cart Button */
@@ -397,27 +452,24 @@
                       <div class="custom-quickview-modal__section" data-option-index="{{ forloop.index0 }}">
                         <span class="custom-quickview-modal__section-label">{{ option.name }}</span>
                         <div class="custom-quickview-modal__size-wrapper">
-                          <div class="custom-quickview-modal__select-container">
-                            <select class="custom-quickview-modal__select js-variant-option">
-                              <option value="" disabled>Choose your {{ option_name }}</option>
-                              {%- for value in option.values -%}
-                                <option
-                                  value="{{ value | escape }}"
-                                  {% if option.selected_value == value %}
-                                  selected{% endif %}>{{ value }}</option>
-                              {%- endfor -%}
-                            </select>
-                            <div class="custom-quickview-modal__select-icon">
-                              <svg
-                                width="14"
-                                height="8"
-                                viewBox="0 0 14 8"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"><path
-                                  d="M1 1L7 7L13 1"
-                                  stroke="black"
-                                  stroke-width="1.5" /></svg>
+                          <div class="custom-dropdown js-custom-dropdown">
+                            <div class="custom-dropdown__selected js-dropdown-toggle">
+                              <span class="js-dropdown-label">{{ option.selected_value }}</span>
+                              <div class="custom-dropdown__icon">
+                                <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M1 1.5L6 6.5L11 1.5" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                              </div>
                             </div>
+                            <ul class="custom-dropdown__list js-dropdown-list">
+                              {%- for value in option.values -%}
+                                <li class="custom-dropdown__item js-dropdown-item {% if option.selected_value == value %}selected{% endif %}" data-value="{{ value | escape }}">
+                                  {{ value }}
+                                </li>
+                              {%- endfor -%}
+                            </ul>
+                            {%- comment -%} Hidden input to keep existing JS logic working {%- endcomment -%}
+                            <input type="hidden" class="js-variant-option" name="options[{{ option.name }}]" value="{{ option.selected_value | escape }}">
                           </div>
                         </div>
                       </div>
@@ -530,17 +582,24 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     function getSelectedOptions() {
         let selected = {};
-        options.forEach(opt => {
+        // Re-query to ensure we have the latest elements if needed
+        const currentOptions = modal.querySelectorAll('.js-variant-option');
+        currentOptions.forEach(opt => {
             const section = opt.closest('.custom-quickview-modal__section');
             const index = parseInt(section ? section.dataset.optionIndex : 0);
             let value;
             
             if (opt.tagName === 'SELECT') {
                 value = opt.value;
+            } else if (opt.tagName === 'INPUT') {
+                value = opt.value;
             } else if (opt.classList.contains('selected')) {
                 value = opt.dataset.value;
             }
-            if (value) selected[`option${index + 1}`] = value;
+            
+            if (value && value !== "") {
+                selected[`option${index + 1}`] = value;
+            }
         });
         return selected;
     }
@@ -550,44 +609,88 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     function updateVariant() {
         const selected = getSelectedOptions();
-        const totalOptions = (productJson && productJson.options) ? productJson.options.length : 0;
-        const selectedCount = Object.keys(selected).length;
+        if (!productJson || !productJson.variants) return;
 
         // Find the variant that matches all selected options
-        const variant = (productJson && productJson.variants) ? productJson.variants.find(v => {
+        const variant = productJson.variants.find(v => {
             return Object.keys(selected).every(key => {
                 return String(v[key] || '').trim().toLowerCase() === String(selected[key] || '').trim().toLowerCase();
             });
-        }) : null;
+        });
 
         if (variant) {
             // Update Price
-            if (window.Shopify && Shopify.formatMoney) {
-                priceEl.textContent = Shopify.formatMoney(variant.price, "{{ shop.money_format }}");
-            } else {
-                priceEl.textContent = "$" + (variant.price / 100).toFixed(2);
+            if (priceEl) {
+                if (window.Shopify && Shopify.formatMoney) {
+                    priceEl.textContent = Shopify.formatMoney(variant.price, "{{ shop.money_format }}");
+                } else {
+                    priceEl.textContent = "$" + (variant.price / 100).toFixed(2);
+                }
             }
 
-            // Update Image if available
-            if (variant.featured_image) {
+            // Update Image if available and element exists
+            if (image && variant.featured_image && variant.featured_image.src) {
                 image.src = variant.featured_image.src;
             }
             
             // Update Button State
-            addToCartBtn.disabled = !variant.available;
-            addToCartBtn.querySelector('.js-btn-text').textContent = variant.available ? 'ADD TO CART' : 'SOLD OUT';
-            addToCartBtn.setAttribute('data-variant-id', variant.id);
+            if (addToCartBtn) {
+                addToCartBtn.disabled = !variant.available;
+                const btnText = addToCartBtn.querySelector('.js-btn-text');
+                if (btnText) btnText.textContent = variant.available ? 'ADD TO CART' : 'SOLD OUT';
+                addToCartBtn.setAttribute('data-variant-id', variant.id);
+            }
         } else {
-            addToCartBtn.disabled = true;
-            addToCartBtn.querySelector('.js-btn-text').textContent = 'UNAVAILABLE';
+            if (addToCartBtn) {
+                addToCartBtn.disabled = true;
+                const btnText = addToCartBtn.querySelector('.js-btn-text');
+                if (btnText) btnText.textContent = 'UNAVAILABLE';
+            }
         }
     }
 
-    // Add event listeners to options
+    // Custom Dropdown Logic
+    const dropdowns = modal.querySelectorAll('.js-custom-dropdown');
+    dropdowns.forEach(dropdown => {
+        const toggle = dropdown.querySelector('.js-dropdown-toggle');
+        const label = dropdown.querySelector('.js-dropdown-label');
+        const list = dropdown.querySelector('.js-dropdown-list');
+        const items = dropdown.querySelectorAll('.js-dropdown-item');
+        const hiddenInput = dropdown.querySelector('.js-variant-option');
+
+        toggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            // Close other dropdowns in the same modal
+            dropdowns.forEach(d => { if(d !== dropdown) d.classList.remove('is-open'); });
+            dropdown.classList.toggle('is-open');
+        });
+
+        items.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const value = item.dataset.value;
+                label.textContent = value;
+                hiddenInput.value = value;
+                
+                items.forEach(i => i.classList.remove('selected'));
+                item.classList.add('selected');
+                
+                dropdown.classList.remove('is-open');
+                updateVariant();
+            });
+        });
+    });
+
+    // Close dropdowns on outside click
+    document.addEventListener('click', () => {
+        dropdowns.forEach(d => d.classList.remove('is-open'));
+    });
+
+    // Add event listeners to options (including swatches)
     options.forEach(opt => {
         if (opt.tagName === 'SELECT') {
             opt.addEventListener('change', updateVariant);
-        } else {
+        } else if (opt.classList.contains('custom-quickview-modal__swatch')) {
             opt.addEventListener('click', function() {
                 const section = this.closest('.custom-quickview-modal__section');
                 if (section) {
